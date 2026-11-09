@@ -1,0 +1,15 @@
+services:
+  palworld-manager:
+    build: .
+    ports:
+      - "8080:80"
+    environment:
+      # Palworld REST API, reachable from inside the container
+      API_BACKEND_URL: http://host.docker.internal:8212
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    # Optional world map: generate tiles first (see README), then uncomment
+    # volumes:
+    #   - ./public/tiles:/usr/share/nginx/html/tiles:ro
+    #   - ./public/tiles-tree:/usr/share/nginx/html/tiles-tree:ro
+    restart: unless-stopped

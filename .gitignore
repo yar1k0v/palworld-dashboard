@@ -1,0 +1,41 @@
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+node_modules
+dist
+dist-ssr
+*.local
+
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+.idea
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# Temp
+tmpclaude-*
+
+# Map extraction working dir - regenerated from the game pak by tools/
+# (extracted 8192x8192 textures + an intermediate copy of the tile pyramid)
+build/
+
+# Playwright MCP scratch output
+.playwright-mcp/
+
+# Game-derived map tiles - generate locally with tools/, never commit
+public/tiles/
+public/tiles-tree/
+
+# Claude Code local settings
+.claude/
