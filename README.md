@@ -16,7 +16,12 @@ Live stats, player moderation and a live map, on top of the official REST API.
 
 </div>
 
-<!-- Add screenshots: docs/dashboard.png, docs/players.png, docs/map.png -->
+<p align="center">
+  <img src="docs/dashboard.png" alt="Dashboard page" width="49%">
+  <img src="docs/players.png" alt="Players page" width="49%">
+</p>
+
+<sub>Screenshots use a mock server with invented players.</sub>
 
 ## What you get
 
@@ -123,7 +128,7 @@ Found a vulnerability? See [SECURITY.md](SECURITY.md).
 
 ## Compatibility
 
-Field names follow the Palworld REST API docs v1.0.4 (game patch 1.0.5 is current). Not yet verified against a live 1.0.x server. Open an issue if a field differs.
+Field names follow the Palworld REST API docs v1.0.4 (game patch 1.0.5 is current). Checked against a mock server only, not yet a live 1.0.x server. Open an issue if a field differs.
 
 ## Disclaimer
 
