@@ -128,7 +128,7 @@ Found a vulnerability? See [SECURITY.md](SECURITY.md).
 
 ## Compatibility
 
-Field names follow the Palworld REST API docs v1.0.4 (game patch 1.0.5 is current). Checked against a mock server only, not yet a live 1.0.x server. Open an issue if a field differs.
+Field names follow the Palworld REST API docs v1.0.4 (game patch 1.0.5 is current). Dashboard, players and map checked on a live server. Kick, ban and unban checked against a mock server only. Open an issue if a field differs.
 
 ## Disclaimer
 
