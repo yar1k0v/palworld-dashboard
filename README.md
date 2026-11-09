@@ -1,25 +1,37 @@
-# Palworld Server Manager
+<div align="center">
 
-Web dashboard for Palworld dedicated servers. It talks to the official [REST API](https://docs.palworldgame.com/category/rest-api/).
+<img src="docs/banner.svg" alt="Palworld Server Manager" width="100%">
+
+**A fast, self-hosted web dashboard for Palworld dedicated servers.**
+Live stats, player moderation and a live map, on top of the official REST API.
 
 [![CI](https://github.com/yar1k0v/palworld-dashboard/actions/workflows/ci.yml/badge.svg)](https://github.com/yar1k0v/palworld-dashboard/actions/workflows/ci.yml)
 [![Docker image](https://github.com/yar1k0v/palworld-dashboard/actions/workflows/docker-publish.yml/badge.svg)](https://github.com/yar1k0v/palworld-dashboard/actions/workflows/docker-publish.yml)
-[![License: MIT](https://img.shields.io/badge/license-MIT-green)](LICENSE)
+[![License: MIT](https://img.shields.io/badge/license-MIT-22c55e)](LICENSE)
+![React 19](https://img.shields.io/badge/React-19-61dafb?logo=react&logoColor=white)
+![TypeScript](https://img.shields.io/badge/TypeScript-5-3178c6?logo=typescript&logoColor=white)
+![Tailwind 4](https://img.shields.io/badge/Tailwind-4-38bdf8?logo=tailwindcss&logoColor=white)
+
+[Quick start](#quick-start) · [Live map](#live-map) · [Development](#development) · [Security](#security)
+
+</div>
 
 <!-- Add screenshots: docs/dashboard.png, docs/players.png, docs/map.png -->
 
-## Features
+## What you get
 
-- **Dashboard**: server status, FPS, uptime, player count, in-game days
-- **Players**: online list, kick, ban, unban
-- **Live map**: player positions and fast travel towers, Palpagos and World Tree (tiles are optional, see [World map](#world-map))
-- **Server control**: broadcast message, save world, graceful shutdown, force stop
-- **Settings viewer**: read-only server configuration
-- **UI**: dark and light theme, mobile layout
+| | |
+|---|---|
+| **Dashboard** | Server FPS, uptime, player count and in-game days, refreshed every 10 s |
+| **Players** | Who is online, with ping and level. Kick, ban and unban in one click |
+| **Live map** | Player positions and fast travel towers on Palpagos and the World Tree |
+| **Server control** | Broadcast a message, save the world, shut down gracefully or force stop |
+| **Settings** | Browse the full server configuration, read-only |
+| **Comfortable UI** | Dark and light theme, works on a phone |
 
 ## Quick start
 
-Enable the API on the game server, in `PalWorldSettings.ini`:
+**1. Turn on the API** in `PalWorldSettings.ini` on the game server:
 
 ```ini
 RESTAPIEnabled=True
@@ -27,7 +39,7 @@ RESTAPIPort=8212
 AdminPassword=<your password>
 ```
 
-Run the dashboard:
+**2. Run the dashboard:**
 
 ```bash
 docker run -d --name palworld-manager -p 3000:80 \
@@ -35,35 +47,51 @@ docker run -d --name palworld-manager -p 3000:80 \
   ghcr.io/yar1k0v/palworld-dashboard:latest
 ```
 
-Open `http://localhost:3000` and enter the admin password. The user name is always `admin`.
+**3. Open** `http://localhost:3000` and sign in with your admin password. The user name is always `admin`.
 
-Compose file: [`docker-compose.yml`](docker-compose.yml).
+Prefer Compose? See [`docker-compose.yml`](docker-compose.yml).
 
 | Variable | Default | Meaning |
 |---|---|---|
 | `API_BACKEND_URL` | `http://localhost:8212` | Palworld REST API base URL, no trailing slash |
 
-## World map
+## How it fits together
 
-The Map page needs tiles. The repo does not ship them because the artwork belongs to Pocketpair. Generate them from your own Palworld install (Windows, Steam):
+```mermaid
+flowchart LR
+  B[Browser] -->|static app + /tiles| N[nginx container]
+  B -->|/api/*| N
+  N -->|Basic Auth passthrough| P[Palworld REST API :8212]
+```
+
+The browser never talks to the game server directly. nginx serves the app and forwards `/api/*` to `API_BACKEND_URL`.
+
+## Live map
+
+The map needs tiles. This repo does not ship them because the artwork belongs to Pocketpair. Build them once from **your own** Palworld install (Windows, Steam):
 
 ```bash
 pip install Pillow
 python tools/make_tiles.py
 ```
 
-- Output: `public/tiles` and `public/tiles-tree` (git-ignored)
-- Pass `--pak "<path>\Pal-Windows.pak"` if Palworld is not in `C:\Games\Steam`
-- Pass `--oodle <path>` to an `oo2core_*_win64.dll` if the script finds none. Any installed game that ships one works.
-- Without tiles, the page shows a notice and the players still show on a blank map
+<details>
+<summary>Options, Docker and troubleshooting</summary>
 
-Docker mounts the tiles read-only:
+- Output: `public/tiles` and `public/tiles-tree` (git-ignored)
+- Palworld is not in `C:\Games\Steam`? Pass `--pak "<path>\Pal-Windows.pak"`
+- Script finds no Oodle library? Pass `--oodle <path>` to an `oo2core_*_win64.dll`. Any installed game that ships one works.
+- Without tiles, the Map page shows a notice and still plots players on a blank map
+
+Mount the tiles read-only into the container:
 
 ```bash
 docker run ... \
   -v ./public/tiles:/usr/share/nginx/html/tiles:ro \
   -v ./public/tiles-tree:/usr/share/nginx/html/tiles-tree:ro ...
 ```
+
+</details>
 
 ## Development
 
@@ -76,22 +104,22 @@ pnpm lint
 pnpm build
 ```
 
-Remote server: tunnel the API port first.
+Server is remote? Tunnel the API port first:
 
 ```bash
 ssh -L 8212:localhost:8212 user@your-server -N
 ```
 
-Stack: React 19, TypeScript, Vite, Zustand, SWR, Tailwind CSS 4, shadcn/ui, Leaflet. Served by nginx.
+Built with React 19, TypeScript, Vite, Zustand, SWR, Tailwind CSS 4, shadcn/ui and Leaflet. Contributions are welcome, see [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ## Security
 
-- ⚠ The dashboard grants full admin control. Anyone who reaches it and knows the password controls the server.
+- ⚠ The dashboard gives full admin control. Anyone who reaches it and knows the password controls your server.
 - ⚠ The Palworld REST API is not built for the open internet. Keep it on a LAN or behind a VPN.
-- Use HTTPS in front of the dashboard. Basic Auth sends the password on every request.
+- Put HTTPS in front of the dashboard. Basic Auth sends the password on every request.
 - The browser keeps the password in `sessionStorage` until the tab closes.
 
-Report vulnerabilities as described in [SECURITY.md](SECURITY.md).
+Found a vulnerability? See [SECURITY.md](SECURITY.md).
 
 ## Compatibility
 

@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="300" viewBox="0 0 1200 300" role="img" aria-label="Palworld Server Manager">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#0b1220"/>
+      <stop offset="1" stop-color="#1e3a8a"/>
+    </linearGradient>
+    <linearGradient id="glow" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#38bdf8"/>
+      <stop offset="1" stop-color="#a78bfa"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="300" rx="24" fill="url(#bg)"/>
+  <g opacity="0.12" stroke="#fff" stroke-width="1">
+    <path d="M0 60H1200M0 120H1200M0 180H1200M0 240H1200M200 0V300M400 0V300M600 0V300M800 0V300M1000 0V300"/>
+  </g>
+  <g transform="translate(150 80)">
+    <rect width="140" height="140" rx="32" fill="url(#glow)"/>
+    <g fill="none" stroke="#fff" stroke-width="9" stroke-linecap="round">
+      <rect x="32" y="32" width="76" height="30" rx="7"/>
+      <rect x="32" y="78" width="76" height="30" rx="7"/>
+    </g>
+    <circle cx="49" cy="47" r="5" fill="#fff"/>
+    <circle cx="49" cy="93" r="5" fill="#fff"/>
+  </g>
+  <text x="340" y="148" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="64" font-weight="700" fill="#fff">Palworld Server Manager</text>
+  <text x="342" y="196" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="26" fill="#bfdbfe">Monitor, moderate and map your dedicated server.</text>
+</svg>
